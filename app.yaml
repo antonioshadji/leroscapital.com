@@ -1,0 +1,18 @@
+runtime: go
+api_version: go1
+
+handlers:
+
+# All URLs are handled by the Go application script
+# Otherwise, find file in static directories
+- url: /css
+  static_dir: css
+
+- url: /js
+  static_dir: js
+
+- url: /img
+  static_dir: img
+
+- url: /.*
+  script: _go_app
