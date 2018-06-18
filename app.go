@@ -2,12 +2,13 @@ package main
 
 import (
 	"fmt"
-	"google.golang.org/appengine"
-	"google.golang.org/appengine/datastore"
-	"google.golang.org/appengine/log"
 	"html/template"
 	"net/http"
 	"time"
+
+	"google.golang.org/appengine"
+	"google.golang.org/appengine/datastore"
+	"google.golang.org/appengine/log"
 )
 
 var (
