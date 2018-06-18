@@ -1,15 +1,15 @@
 {{ define "test" }}
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
   <title>The Gopher Network</title>
-  <link rel="stylesheet" type="text/css" href="/static/style.css">
+  <link rel="stylesheet" type="text/css" href="/css/teststyle.css">
 </head>
 <body>
 
 <h1>The Gopher Network</h1>
 
-<img id="logo" alt="logo" src="/static/gcp-gopher.svg" width="100">
+<img id="logo" alt="logo" src="/img/gcp-gopher.svg" width="100">
 
 {{with .Notice}}<div id="notice">{{.}}</div>{{end}}
 
@@ -19,7 +19,7 @@
   <input type="submit">
 </form>
 
-<!-- [START html_template] --> 
+<!-- [START html_template] -->
 {{with .Posts}}
 <ol>
   {{range .}}
