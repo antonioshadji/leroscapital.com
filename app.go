@@ -34,14 +34,14 @@ type templateParams struct {
 }
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
-
+	ctx := appengine.NewContext(r)
 	data := PageDetails{
 		PageTitle: "Leros Capital",
 	}
 
 	err := tmpl.ExecuteTemplate(w, "home", data)
 	if err != nil {
-
+		log.Errorf(ctx, "Failed to ExecuteTemplate: %v", err)
 	}
 }
 

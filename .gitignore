@@ -15,3 +15,6 @@
 
 # api keys
 apikey*
+
+# tern config
+.tern-port
