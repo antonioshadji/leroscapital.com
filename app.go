@@ -45,6 +45,18 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func cbHandler(w http.ResponseWriter, r *http.Request) {
+	ctx := appengine.NewContext(r)
+	data := PageDetails{
+		PageTitle: "Leros Capital - logged in",
+	}
+
+	err := tmpl.ExecuteTemplate(w, "home", data)
+	if err != nil {
+		log.Errorf(ctx, "Failed to ExecuteTemplate: %v", err)
+	}
+}
+
 func testHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Sprintf(r.URL.Path)
 	if r.URL.Path != "/test" {
@@ -123,6 +135,7 @@ func testHandler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	http.HandleFunc("/test", testHandler)
+	http.HandleFunc("/oath2callback", cbHandler)
 	http.HandleFunc("/", homeHandler)
 	appengine.Main()
 }
