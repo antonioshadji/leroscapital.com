@@ -7,6 +7,8 @@ document.getElementById('year').innerHTML = new Date().getFullYear()
 /* project specific */
 document.getElementById('b_login').addEventListener('click', () => {
   console.log('click #b_login')
+  document.getElementById('b_login').style.display = 'none'
+  signOut()
 })
 
 function onSignIn (googleUser) {
@@ -15,6 +17,7 @@ function onSignIn (googleUser) {
   console.log('Name: ' + profile.getName())
   console.log('Image URL: ' + profile.getImageUrl())
   console.log('Email: ' + profile.getEmail()) // This is null if the 'email' scope is not present.
+  document.getElementById('b_login').style.display = 'block'
 }
 
 function signOut () {
