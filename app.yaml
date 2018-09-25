@@ -1,16 +1,23 @@
 runtime: go
 api_version: go1
 
+# default value is 10m
+# default_expiration: "10m"
+
 handlers:
   - url: /css
     static_dir: css
+    # expiration: "10m"
   - url: /js
     static_dir: js
+    # expiration: "10m"
   - url: /img
     static_dir: img
+    # expiration: "10m"
   - url: /favicon\.ico
     static_files: img/favicon\.ico
     upload: img/favicon\.ico
+    # expiration: "10m"
   - url: /.*
     script: _go_app
     secure: always

@@ -6,36 +6,41 @@
     {{ template "navigation" . }}
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
-      <div class="container">
+      <div class="container marketing">
         <h1 class="display-3">{{ .PageTitle }}</h1>
-        <p>Technology and Business Development</p>
+        <!-- p>Technology and Business Development</p -->
+        <p>Intellectual Capital to help solve your greatest business challenges</p>
         <!--        <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>  -->
       </div>
     </div>
 
-    <div class="container">
-      <div class="row">
-        <!--
-        <div class="col-md-3"></div>
-        <div class="col-md-3">
-          <h2>Technology</h2>
+    <main class="container">
+      <div class="row marketing">
+        <div class="col-md-4">
+          <h2>Technology Solutions</h2>
           <p>
             <ul>
+              <li>Business Process Automation</li>
+              <li>Website &amp; App Consulting</li>
+              <li>Marketing Technology</li>
+              <li>Blockchain Use Cases</li>
             </ul>
+            <!-- a class="btn btn-secondary" href="#" role="button">View details &raquo;</a -->
           </p>
         </div>
-        <div class="col-md-3">
-          <h2>Business</h2>
+        <div class="col-md-4">
+          <h2>Business Strategy</h2>
           <p>
-            <ul>
-            </ul>
-            <a class="btn btn-secondary" href="#" role="button">View details &raquo;</a>
+            What is your greatest business challenge?<br/> Send us a message and get a response within 48 hours telling you how we can help.
           </p>
+          <a class="btn btn-secondary" href="mailto:help@leroscapital.com?Subject=My%20greatest%20business%20challenge%20is&#58;" role="button">Send email &raquo;</a>
         </div>
-        <div class="col-md-3"></div>
-        -->
+        <div class="col-md-4">
+          <h2>High Performance Humans</h2>
+          <p>Strategies to achieve peak effectiveness in business and in life.</p>
+        </div>
       </div>
-    </div> <!-- /container -->
+    </main> <!-- /container -->
     {{ template "footer" . }}
   </body>
 </html>
