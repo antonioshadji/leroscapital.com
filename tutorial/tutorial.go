@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
-	"os"
 	"time"
 
 	"google.golang.org/appengine"
@@ -28,11 +27,6 @@ type Post struct {
 var tmpl *template.Template
 
 func init() {
-	dir, err := os.Getwd()
-	if err != nil {
-		fmt.Println(err)
-	}
-	fmt.Println(dir)
 	tmpl = template.Must(template.ParseFiles("templates/test.tmpl"))
 }
 
