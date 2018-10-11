@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/antonioshadji/leroscapital.com/treasury"
 	"github.com/antonioshadji/leroscapital.com/tutorial"
 	"google.golang.org/appengine"
 	"google.golang.org/appengine/log"
@@ -44,7 +45,7 @@ func cbHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	// http.HandleFunc("/treasury", treasuryHandler)
+	http.HandleFunc("/treasury", treasury.Handler)
 	http.HandleFunc("/tutorial", tutorial.Handler)
 	http.HandleFunc("/oath2callback", cbHandler)
 	http.HandleFunc("/", homeHandler)
