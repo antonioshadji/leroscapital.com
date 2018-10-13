@@ -1,12 +1,12 @@
 package main
 
 import (
+	"fmt"
 	"github.com/antonioshadji/leroscapital.com/treasury"
-	"github.com/antonioshadji/leroscapital.com/tutorial"
-	"google.golang.org/appengine"
-	"google.golang.org/appengine/log"
 	"html/template"
+	"log"
 	"net/http"
+	"os"
 	"time"
 )
 
@@ -20,7 +20,6 @@ type PageDetails struct {
 }
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
-	ctx := appengine.NewContext(r)
 	data := PageDetails{
 		PageTitle: "Leros Capital",
 		Posted:    time.Now(),
@@ -28,26 +27,32 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 
 	err := tmpl.ExecuteTemplate(w, "home", data)
 	if err != nil {
-		log.Errorf(ctx, "Failed to ExecuteTemplate: %v", err)
+		log.Printf("Failed to ExecuteTemplate: %v", err)
 	}
 }
 
 func cbHandler(w http.ResponseWriter, r *http.Request) {
-	ctx := appengine.NewContext(r)
 	data := PageDetails{
 		PageTitle: "Leros Capital - logged in",
 	}
 
 	err := tmpl.ExecuteTemplate(w, "home", data)
 	if err != nil {
-		log.Errorf(ctx, "Failed to ExecuteTemplate: %v", err)
+		log.Printf("Failed to ExecuteTemplate: %v", err)
 	}
 }
 
 func main() {
 	http.HandleFunc("/treasury", treasury.Handler)
-	http.HandleFunc("/tutorial", tutorial.Handler)
 	http.HandleFunc("/oath2callback", cbHandler)
 	http.HandleFunc("/", homeHandler)
-	appengine.Main()
+
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+		log.Printf("Defaulting to port %s", port)
+	}
+
+	log.Printf("Listening on port %s", port)
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", port), nil))
 }
