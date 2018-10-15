@@ -12,7 +12,7 @@ handlers:
     # expiration: "10m"
   - url: /img
     static_dir: img
-    # expiration: "10m"
+    expiration: "10d"
   - url: /favicon\.ico
     static_files: img/favicon\.ico
     upload: img/favicon\.ico
