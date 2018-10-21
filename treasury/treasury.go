@@ -1,7 +1,7 @@
 package treasury
 
 import (
-	"fmt"
+	"encoding/json"
 	"io/ioutil"
 	"net/http"
 )
@@ -9,15 +9,30 @@ import (
 func init() {}
 
 func Handler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Content-Type", "application/json;charset=UTF-8")
+
 	resp, err := http.Get("https://www.treasurydirect.gov/NP_WS/debt/current?format=json")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	fmt.Fprintf(w, "HTTP GET returned status: %v\n", resp.Status)
-	fmt.Fprintf(w, "HTTP GET returned headers:\n %v\n", resp.Header)
+
 	body, err := ioutil.ReadAll(resp.Body)
-	fmt.Fprintf(w, "HTTP GET returned body:\n %v\n", string(body))
+
+	// https://blog.golang.org/json-and-go
+	var f interface{}
+	err = json.Unmarshal(body, &f)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	err = json.NewEncoder(w).Encode(f)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 }
 
 // headers returned
