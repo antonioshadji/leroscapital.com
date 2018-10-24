@@ -33,8 +33,6 @@ func init() {
 
 func Handler(w http.ResponseWriter, r *http.Request) {
 	if r.URL.EscapedPath() == "/treasury/" {
-		fmt.Println("found base url only")
-
 		err := tmpl.ExecuteTemplate(w, "treasury", data)
 		if err != nil {
 			log.Printf("Failed to ExecuteTemplate: %v", err)
