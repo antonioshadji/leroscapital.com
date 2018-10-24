@@ -3,21 +3,48 @@ package treasury
 import (
 	"encoding/json"
 	"fmt"
+	"html/template"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"strings"
+	"time"
 )
 
-func init() {}
+var (
+	tmpl = template.Must(template.ParseGlob("templates/*"))
+)
 
-func errHandler(err error, w http.ResponseWriter) bool {
-	return false
+type PageDetails struct {
+	PageTitle  string
+	PageHeader string
+	Posted     time.Time
+}
+
+var data PageDetails
+
+func init() {
+	data = PageDetails{
+		PageTitle:  "Leros Capital :: TreasuryDirect API",
+		PageHeader: "TreasuryDirect API",
+		Posted:     time.Now(),
+	}
 }
 
 func Handler(w http.ResponseWriter, r *http.Request) {
+	if r.URL.EscapedPath() == "/treasury/" {
+		fmt.Println("found base url only")
+
+		err := tmpl.ExecuteTemplate(w, "treasury", data)
+		if err != nil {
+			log.Printf("Failed to ExecuteTemplate: %v", err)
+		}
+		return
+	}
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json;charset=UTF-8")
 	q := r.URL.Query()
+
 	p := strings.TrimPrefix(r.URL.EscapedPath(), "/treasury")
 	var b strings.Builder
 	b.WriteString("https://treasurydirect.gov")
@@ -26,6 +53,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	for key, value := range q {
 		_, err := fmt.Fprintf(&b, "%v=%v", key, value[0])
 		if err != nil {
+			log.Println("query fail")
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
@@ -34,6 +62,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	// res, err := http.Get("https://www.treasurydirect.gov/NP_WS/debt/current?format=json")
 	res, err := http.Get(b.String())
 	if err != nil {
+		log.Println("get fail")
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
@@ -44,12 +73,14 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	var f interface{}
 	err = json.Unmarshal(body, &f)
 	if err != nil {
+		log.Println("json fail")
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
 	err = json.NewEncoder(w).Encode(f)
 	if err != nil {
+		log.Println("encode fail")
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
