@@ -1,13 +1,13 @@
 {{ define "home" }}
 <!doctype html>
 <html lang="en">
-  {{ template "head" . }}
+  {{ template "head" .PageTitle }}
   <body>
     {{ template "navigation" . }}
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
       <div class="container marketing">
-        <h1 class="display-3">{{ .PageTitle }}</h1>
+        <h1 class="display-3">{{ .PageHeader }}</h1>
         <!-- p>Technology and Business Development</p -->
         <p>Intellectual Capital to help solve your greatest business challenges</p>
         <!--        <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>  -->

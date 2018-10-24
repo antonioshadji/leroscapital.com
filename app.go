@@ -15,14 +15,16 @@ var (
 )
 
 type PageDetails struct {
-	PageTitle string
-	Posted    time.Time
+	PageTitle  string
+	PageHeader string
+	Posted     time.Time
 }
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
 	data := PageDetails{
-		PageTitle: "Leros Capital",
-		Posted:    time.Now(),
+		PageTitle:  "Leros Capital",
+		PageHeader: "Leros Capital",
+		Posted:     time.Now(),
 	}
 
 	err := tmpl.ExecuteTemplate(w, "home", data)
@@ -33,7 +35,9 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 
 func cbHandler(w http.ResponseWriter, r *http.Request) {
 	data := PageDetails{
-		PageTitle: "Leros Capital - logged in",
+		PageTitle:  "Leros Capital ::",
+		PageHeader: "Leros Capital",
+		Posted:     time.Now(),
 	}
 
 	err := tmpl.ExecuteTemplate(w, "home", data)
