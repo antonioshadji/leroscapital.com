@@ -47,8 +47,8 @@ func cbHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	http.HandleFunc("/treasury", treasury.Handler)
-	http.HandleFunc("/oath2callback", cbHandler)
+	http.HandleFunc("/treasury/", treasury.Handler)
+	http.HandleFunc("/oath2callback/", cbHandler)
 	http.HandleFunc("/", homeHandler)
 
 	port := os.Getenv("PORT")

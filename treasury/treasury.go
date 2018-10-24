@@ -11,10 +11,6 @@ import (
 func init() {}
 
 func errHandler(err error, w http.ResponseWriter) bool {
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return true
-	}
 	return false
 }
 
@@ -22,21 +18,23 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json;charset=UTF-8")
 	q := r.URL.Query()
-	p := r.URL.EscapedPath()
+	p := strings.TrimPrefix(r.URL.EscapedPath(), "/treasury")
 	var b strings.Builder
-	b.WriteString("https:/treasurydirect.gov")
+	b.WriteString("https://treasurydirect.gov")
 	b.WriteString(p)
 	b.WriteString("?")
 	for key, value := range q {
-		_, err := fmt.Fprintf(&b, "%v=%v", key, value)
-		if errHandler(err, w) {
+		_, err := fmt.Fprintf(&b, "%v=%v", key, value[0])
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 	}
 
 	// res, err := http.Get("https://www.treasurydirect.gov/NP_WS/debt/current?format=json")
 	res, err := http.Get(b.String())
-	if errHandler(err, w) {
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
@@ -45,7 +43,8 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	// https://blog.golang.org/json-and-go
 	var f interface{}
 	err = json.Unmarshal(body, &f)
-	if errHandler(err, w) {
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
