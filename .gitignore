@@ -15,7 +15,7 @@
 
 # api keys
 apikey*
-credentials.json
+credentials*.json
 
 # tern config
 .tern-port
