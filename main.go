@@ -10,10 +10,9 @@ import (
 	"time"
 )
 
-var (
-	tmpl = template.Must(template.ParseGlob("templates/*"))
-)
+var tmpl = template.Must(template.ParseGlob("templates/*"))
 
+// PageDetails ...
 type PageDetails struct {
 	PageTitle  string
 	PageHeader string
