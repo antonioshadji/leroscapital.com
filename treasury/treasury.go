@@ -15,6 +15,7 @@ var (
 	tmpl = template.Must(template.ParseGlob("templates/*"))
 )
 
+// PageDetails page data
 type PageDetails struct {
 	PageTitle  string
 	PageHeader string
@@ -31,6 +32,7 @@ func init() {
 	}
 }
 
+// Handler http handler
 func Handler(w http.ResponseWriter, r *http.Request) {
 	if r.URL.EscapedPath() == "/treasury/" {
 		err := tmpl.ExecuteTemplate(w, "treasury", data)

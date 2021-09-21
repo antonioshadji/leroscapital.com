@@ -1,5 +1,5 @@
 ---
-runtime: go112
+runtime: go116
 # https://cloud.google.com/appengine/docs/standard/go112/go-differences
 # default value is 10m
 # default_expiration: "10m"
@@ -13,7 +13,7 @@ handlers:
     # expiration: "10m"
   - url: /img
     static_dir: img
-    expiration: "10d"
+    expiration: 10d
   - url: /favicon\.ico
     static_files: img/favicon\.ico
     upload: img/favicon\.ico

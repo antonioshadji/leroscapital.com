@@ -1,3 +1,3 @@
 module github.com/antonioshadji/leroscapital.com
 
-go 1.14
+go 1.16
