@@ -36,6 +36,13 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func mapHandler(w http.ResponseWriter, r *http.Request) {
+	err := tmpl.ExecuteTemplate(w, "map", PageDetails{})
+	if err != nil {
+		log.Printf("Failed to ExecuteTemplate: %v", err)
+	}
+}
+
 func cbHandler(w http.ResponseWriter, r *http.Request) {
 	data := PageDetails{
 		PageTitle:  "Leros Capital ::",
@@ -103,6 +110,7 @@ func main() {
 	http.HandleFunc("/treasury/", treasury.Handler)
 	http.HandleFunc("/oath2callback/", cbHandler)
 	http.HandleFunc("/webhook/", webhookHandler)
+	http.HandleFunc("/map", mapHandler)
 	http.HandleFunc("/", homeHandler)
 
 	port := os.Getenv("PORT")
