@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"html/template"
@@ -11,16 +12,26 @@ import (
 	"strings"
 	"time"
 
+	secretmanager "cloud.google.com/go/secretmanager/apiv1"
+	secretmanagerpb "google.golang.org/genproto/googleapis/cloud/secretmanager/v1"
+
 	"github.com/antonioshadji/leroscapital.com/treasury"
 )
 
 var tmpl = template.Must(template.ParseGlob("templates/*"))
+var key string
 
 // PageDetails ...
 type PageDetails struct {
 	PageTitle  string
 	PageHeader string
 	Posted     time.Time
+	APIKey     string
+}
+
+func init() {
+	name := "projects/584752879666/secrets/MAPAPI/versions/1"
+	key = accessSecretVersion(name)
 }
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
@@ -37,7 +48,15 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func mapHandler(w http.ResponseWriter, r *http.Request) {
-	err := tmpl.ExecuteTemplate(w, "map", PageDetails{})
+	apiKey := os.Getenv("API_KEY")
+	if apiKey == "" {
+		apiKey = key
+	}
+	data := PageDetails{
+		APIKey: apiKey,
+	}
+
+	err := tmpl.ExecuteTemplate(w, "map", data)
 	if err != nil {
 		log.Printf("Failed to ExecuteTemplate: %v", err)
 	}
@@ -106,7 +125,38 @@ func indent(v interface{}) string {
 	return string(b)
 }
 
+// accessSecretVersion accesses the payload for the given secret version if one
+// exists. The version can be a version number as a string (e.g. "5") or an
+// alias (e.g. "latest").
+func accessSecretVersion(name string) string {
+	// name := "projects/584752879666/secrets/MAPAPI/versions/1"
+	// name := "projects/my-project/secrets/my-secret/versions/5"
+	// name := "projects/my-project/secrets/my-secret/versions/latest"
+
+	// Create the client.
+	ctx := context.Background()
+	client, err := secretmanager.NewClient(ctx)
+	if err != nil {
+		log.Print(fmt.Errorf("failed to create secretmanager client: %v", err))
+	}
+	defer client.Close()
+
+	// Build the request.
+	req := &secretmanagerpb.AccessSecretVersionRequest{
+		Name: name,
+	}
+
+	// Call the API.
+	result, err := client.AccessSecretVersion(ctx, req)
+	if err != nil {
+		log.Print(fmt.Errorf("failed to access secret version: %v", err))
+	}
+
+	return string(result.Payload.Data)
+}
+
 func main() {
+
 	http.HandleFunc("/treasury/", treasury.Handler)
 	http.HandleFunc("/oath2callback/", cbHandler)
 	http.HandleFunc("/webhook/", webhookHandler)
@@ -120,5 +170,6 @@ func main() {
 	}
 
 	log.Printf("Listening on port %s", port)
+	log.Printf("key = %s", key)
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", port), nil))
 }
