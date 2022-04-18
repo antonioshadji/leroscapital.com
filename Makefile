@@ -1,5 +1,5 @@
 help:
-	@echo use <make deploy> to deploy app to gcloud
+	@echo 'use <make deploy> to deploy app to gcloud'
 
 deploy: static
 	gcloud app deploy
