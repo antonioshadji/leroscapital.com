@@ -42,6 +42,7 @@
       new google.maps.Marker({
         position: t[o].center,
         map: e,
+        label: o,
       });
     }
   }
