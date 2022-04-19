@@ -170,6 +170,5 @@ func main() {
 	}
 
 	log.Printf("Listening on port %s", port)
-	log.Printf("key = %s", key)
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", port), nil))
 }
