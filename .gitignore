@@ -16,6 +16,7 @@
 # api keys
 apikey*
 credentials*.json
+.env
 
 # tern config
 .tern-port
@@ -25,3 +26,6 @@ index.yaml
 
 # test script with local API key
 *_local.sh
+
+# log files
+*.log
