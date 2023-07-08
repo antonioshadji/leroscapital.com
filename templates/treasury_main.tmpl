@@ -3,13 +3,17 @@
 <html lang="en">
   {{ template "head" . }}
   <body>
-    {{ template "navigation" . }}
+    {{/* template "navigation" . */}}
 
     <main class="container">
       <h1> Treasury Direct API with CORS </h1>
-      <a href="/treasury/NP_WS/debt/current?format=json">Current Debt</a>
-
+      <ul>
+        <li>
+          <a href="/treasury/NP_WS/debt/current?format=json">Current Debt</a>
+        </li>
+      </ul>
     </main> <!-- /container -->
+
     {{ template "footer" . }}
   </body>
 </html>
