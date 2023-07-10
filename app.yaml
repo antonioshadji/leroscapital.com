@@ -1,10 +1,11 @@
 ---
-runtime: go116
+runtime: go120
 # https://cloud.google.com/appengine/docs/standard/go112/go-differences
 # default value is 10m
 # default_expiration: "10m"
-
 handlers:
+  - url: /robots.txt
+    static_files: robots.txt
   - url: /.*
     secure: always
     redirect_http_response_code: 301
