@@ -12,3 +12,4 @@ static:
 	gsutil -m rsync -c -r -d ./css gs://leros-capital.appspot.com/css
 	gsutil -m rsync -c -r -d ./js gs://leros-capital.appspot.com/js
 	gsutil -m rsync -c -r -d ./img gs://leros-capital.appspot.com/img
+	gsutil -m rsync -c -r -d ./robots.txt gs://leros-capital.appspot.com
