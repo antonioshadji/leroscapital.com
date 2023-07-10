@@ -36,7 +36,7 @@ func init() {
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
 	data := PageDetails{
-		PageTitle:  "Leros Capital",
+		PageTitle:  "Leros Capital LLC",
 		PageHeader: "Leros Capital",
 		Posted:     time.Now(),
 	}
@@ -64,7 +64,7 @@ func mapHandler(w http.ResponseWriter, r *http.Request) {
 
 func cbHandler(w http.ResponseWriter, r *http.Request) {
 	data := PageDetails{
-		PageTitle:  "Leros Capital ::",
+		PageTitle:  "Leros Capital LLC ::",
 		PageHeader: "Leros Capital",
 		Posted:     time.Now(),
 	}

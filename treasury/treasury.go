@@ -26,7 +26,7 @@ var data PageDetails
 
 func init() {
 	data = PageDetails{
-		PageTitle:  "Leros Capital :: TreasuryDirect API",
+		PageTitle:  "Leros Capital LLC :: TreasuryDirect API",
 		PageHeader: "TreasuryDirect API",
 		Posted:     time.Now(),
 	}
