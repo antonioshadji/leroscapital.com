@@ -9,7 +9,7 @@ deploy: static
 # -d mirror source and destination
 # -r recursive handling of directories
 static:
+	gsutil cp ./robots.txt gs://leros-capital.appspot.com
 	gsutil -m rsync -c -r -d ./css gs://leros-capital.appspot.com/css
 	gsutil -m rsync -c -r -d ./js gs://leros-capital.appspot.com/js
 	gsutil -m rsync -c -r -d ./img gs://leros-capital.appspot.com/img
-	gsutil -m rsync -c -r -d ./robots.txt gs://leros-capital.appspot.com

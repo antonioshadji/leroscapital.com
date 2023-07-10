@@ -6,6 +6,7 @@ runtime: go120
 handlers:
   - url: /robots.txt
     static_files: robots.txt
+    upload: robots.txt
   - url: /.*
     secure: always
     redirect_http_response_code: 301
