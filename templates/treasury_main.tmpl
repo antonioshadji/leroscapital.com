@@ -1,20 +1,24 @@
 {{ define "treasury" }}
 <!doctype html>
-<html lang="en">
+<html lang="en" class="h-100">
   {{ template "head" . }}
-  <body>
+  <body class="d-flex h-100 text-center text-bg-dark">
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
     {{/* template "navigation" . */}}
 
-    <main class="container">
+    <main class="px-3">
       <h1> Treasury Direct API with CORS </h1>
-      <ul>
-        <li>
-          <a href="/treasury/NP_WS/debt/current?format=json">Current Debt</a>
-        </li>
-      </ul>
-    </main> <!-- /container -->
+      <div class="mx-auto p-2">
+        <ul>
+          <li>
+            <a href="/treasury/NP_WS/debt/current?format=json">Current Debt</a>
+          </li>
+        </ul>
+      </div>
+    </main>
 
     {{ template "footer" . }}
+    </div>
   </body>
 </html>
 {{ end }}

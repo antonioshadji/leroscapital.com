@@ -47,6 +47,35 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func consultingHandler(w http.ResponseWriter, r *http.Request) {
+
+	err := tmpl.ExecuteTemplate(w, "consulting", nil)
+	if err != nil {
+		log.Printf("Failed to ExecuteTemplate: %v", err)
+	}
+}
+func acquisitionHandler(w http.ResponseWriter, r *http.Request) {
+
+	err := tmpl.ExecuteTemplate(w, "acquisition", nil)
+	if err != nil {
+		log.Printf("Failed to ExecuteTemplate: %v", err)
+	}
+}
+func privacyHandler(w http.ResponseWriter, r *http.Request) {
+
+	err := tmpl.ExecuteTemplate(w, "privacy", nil)
+	if err != nil {
+		log.Printf("Failed to ExecuteTemplate: %v", err)
+	}
+}
+func termsHandler(w http.ResponseWriter, r *http.Request) {
+
+	err := tmpl.ExecuteTemplate(w, "terms", nil)
+	if err != nil {
+		log.Printf("Failed to ExecuteTemplate: %v", err)
+	}
+}
+
 func mapHandler(w http.ResponseWriter, r *http.Request) {
 	apiKey := os.Getenv("API_KEY")
 	if apiKey == "" {
@@ -157,6 +186,10 @@ func accessSecretVersion(name string) string {
 
 func main() {
 
+	http.HandleFunc("/privacy/", privacyHandler)
+	http.HandleFunc("/terms/", termsHandler)
+	http.HandleFunc("/acquisitions/", acquisitionHandler)
+	http.HandleFunc("/consulting/", consultingHandler)
 	http.HandleFunc("/treasury/", treasury.Handler)
 	http.HandleFunc("/oath2callback/", cbHandler)
 	http.HandleFunc("/webhook/", webhookHandler)
