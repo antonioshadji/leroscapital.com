@@ -29,3 +29,6 @@ index.yaml
 
 # log files
 *.log
+
+# air directory
+tmp/
