@@ -19,7 +19,7 @@ import (
 )
 
 var tmpl = template.Must(template.ParseGlob("templates/*"))
-var key string
+var key, apiKey string
 
 // PageDetails ...
 type PageDetails struct {
@@ -27,19 +27,30 @@ type PageDetails struct {
 	PageHeader string
 	Posted     time.Time
 	APIKey     string
+	Year       int
+}
+
+var data = PageDetails{
+	PageTitle:  "Leros Capital LLC",
+	PageHeader: "Leros Capital",
+	Posted:     time.Now(),
+	Year:       time.Now().Year(),
 }
 
 func init() {
-	name := "projects/584752879666/secrets/MAPAPI/versions/1"
-	key = accessSecretVersion(name)
+	// local capture key value
+	apiKey := os.Getenv("API_KEY")
+	if apiKey == "" {
+		// use secret manager
+		name := "projects/584752879666/secrets/MAPAPI/versions/1"
+		key = accessSecretVersion(name)
+		apiKey = key
+	}
+
 }
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
-	data := PageDetails{
-		PageTitle:  "Leros Capital LLC",
-		PageHeader: "Leros Capital",
-		Posted:     time.Now(),
-	}
+	data.PageTitle = "Leros Capital LLC"
 
 	err := tmpl.ExecuteTemplate(w, "home", data)
 	if err != nil {
@@ -48,15 +59,17 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func consultingHandler(w http.ResponseWriter, r *http.Request) {
+	data.PageTitle = "Leros Capital :: Consulting"
 
-	err := tmpl.ExecuteTemplate(w, "consulting", nil)
+	err := tmpl.ExecuteTemplate(w, "consulting", data)
 	if err != nil {
 		log.Printf("Failed to ExecuteTemplate: %v", err)
 	}
 }
 func acquisitionHandler(w http.ResponseWriter, r *http.Request) {
+	data.PageTitle = "Leros Capital :: Acquisitions"
 
-	err := tmpl.ExecuteTemplate(w, "acquisition", nil)
+	err := tmpl.ExecuteTemplate(w, "acquisition", data)
 	if err != nil {
 		log.Printf("Failed to ExecuteTemplate: %v", err)
 	}
@@ -77,13 +90,7 @@ func termsHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func mapHandler(w http.ResponseWriter, r *http.Request) {
-	apiKey := os.Getenv("API_KEY")
-	if apiKey == "" {
-		apiKey = key
-	}
-	data := PageDetails{
-		APIKey: apiKey,
-	}
+	data.APIKey = apiKey
 
 	err := tmpl.ExecuteTemplate(w, "map", data)
 	if err != nil {
@@ -92,11 +99,7 @@ func mapHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func cbHandler(w http.ResponseWriter, r *http.Request) {
-	data := PageDetails{
-		PageTitle:  "Leros Capital LLC ::",
-		PageHeader: "Leros Capital",
-		Posted:     time.Now(),
-	}
+	data.PageTitle = "Leros Capital LLC :: Callback Handler"
 
 	err := tmpl.ExecuteTemplate(w, "home", data)
 	if err != nil {
