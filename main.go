@@ -46,7 +46,6 @@ func init() {
 		key = accessSecretVersion(name)
 		apiKey = key
 	}
-
 }
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {

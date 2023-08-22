@@ -20,6 +20,7 @@ type PageDetails struct {
 	PageTitle  string
 	PageHeader string
 	Posted     time.Time
+	Year       int
 }
 
 var data PageDetails
@@ -29,6 +30,7 @@ func init() {
 		PageTitle:  "Leros Capital LLC :: TreasuryDirect API",
 		PageHeader: "TreasuryDirect API",
 		Posted:     time.Now(),
+		Year:       time.Now().Year(),
 	}
 }
 
