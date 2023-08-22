@@ -42,7 +42,7 @@ func init() {
 	apiKey := os.Getenv("API_KEY")
 	if apiKey == "" {
 		// use secret manager
-		name := "projects/584752879666/secrets/MAPAPI/versions/1"
+		name := "projects/584752879666/secrets/MAPAPI/versions/2"
 		key = accessSecretVersion(name)
 		apiKey = key
 	}
