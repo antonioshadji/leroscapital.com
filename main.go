@@ -48,41 +48,21 @@ func init() {
 	}
 }
 
+func createHandler(path string) func(http.ResponseWriter, *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		data.PageTitle = "Leros Capital :: " + strings.Title(path)
+
+		err := tmpl.ExecuteTemplate(w, path, data)
+		if err != nil {
+			log.Printf("Failed to ExecuteTemplate: %v", err)
+		}
+	}
+}
+
 func homeHandler(w http.ResponseWriter, r *http.Request) {
 	data.PageTitle = "Leros Capital LLC"
 
 	err := tmpl.ExecuteTemplate(w, "home", data)
-	if err != nil {
-		log.Printf("Failed to ExecuteTemplate: %v", err)
-	}
-}
-
-func consultingHandler(w http.ResponseWriter, r *http.Request) {
-	data.PageTitle = "Leros Capital :: Consulting"
-
-	err := tmpl.ExecuteTemplate(w, "consulting", data)
-	if err != nil {
-		log.Printf("Failed to ExecuteTemplate: %v", err)
-	}
-}
-func acquisitionHandler(w http.ResponseWriter, r *http.Request) {
-	data.PageTitle = "Leros Capital :: Acquisitions"
-
-	err := tmpl.ExecuteTemplate(w, "acquisition", data)
-	if err != nil {
-		log.Printf("Failed to ExecuteTemplate: %v", err)
-	}
-}
-func privacyHandler(w http.ResponseWriter, r *http.Request) {
-
-	err := tmpl.ExecuteTemplate(w, "privacy", nil)
-	if err != nil {
-		log.Printf("Failed to ExecuteTemplate: %v", err)
-	}
-}
-func termsHandler(w http.ResponseWriter, r *http.Request) {
-
-	err := tmpl.ExecuteTemplate(w, "terms", nil)
 	if err != nil {
 		log.Printf("Failed to ExecuteTemplate: %v", err)
 	}
@@ -188,10 +168,8 @@ func accessSecretVersion(name string) string {
 
 func main() {
 
-	http.HandleFunc("/privacy/", privacyHandler)
-	http.HandleFunc("/terms/", termsHandler)
-	http.HandleFunc("/acquisitions/", acquisitionHandler)
-	http.HandleFunc("/consulting/", consultingHandler)
+	http.HandleFunc("/acquisitions/", createHandler("acquisitions"))
+	http.HandleFunc("/consulting/", createHandler("consulting"))
 	http.HandleFunc("/treasury/", treasury.Handler)
 	http.HandleFunc("/oath2callback/", cbHandler)
 	http.HandleFunc("/webhook/", webhookHandler)
