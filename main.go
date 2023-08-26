@@ -19,7 +19,7 @@ import (
 )
 
 var tmpl = template.Must(template.ParseGlob("templates/*"))
-var key, apiKey string
+var apiKey string
 
 // PageDetails ...
 type PageDetails struct {
@@ -38,13 +38,11 @@ var data = PageDetails{
 }
 
 func init() {
-	// local capture key value
-	apiKey := os.Getenv("API_KEY")
+	apiKey = os.Getenv("API_KEY")
 	if apiKey == "" {
 		// use secret manager
 		name := "projects/584752879666/secrets/MAPAPI/versions/2"
-		key = accessSecretVersion(name)
-		apiKey = key
+		apiKey = accessSecretVersion(name)
 	}
 }
 
