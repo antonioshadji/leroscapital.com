@@ -14,7 +14,6 @@ async function initMap() {
   map = new Map(document.getElementById("map"), {
     center: { lat: 39.2903848, lng: -76.6121893 },
     zoom: 9,
-    mapTypeId: "terrain",
   });
 
   for (const m in markers) {
@@ -37,4 +36,6 @@ async function initMap() {
   }
 }
 
-initMap();
+addEventListener("DOMContentLoaded", (event) => {
+  initMap();
+});
