@@ -1,5 +1,5 @@
 ---
-runtime: go120
+runtime: go121
 # https://cloud.google.com/appengine/docs/standard/go112/go-differences
 # default value is 10m
 # default_expiration: "10m"
