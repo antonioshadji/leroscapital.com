@@ -1,4 +1,5 @@
 User-agent: Googlebot
 User-agent: AdsBot-Google
+User-agent: Slurp
+User-agent: BingBot
 User-agent: *
-Disallow:
