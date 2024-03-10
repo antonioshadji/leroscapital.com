@@ -32,3 +32,5 @@ index.yaml
 
 # air directory
 tmp/
+# keys
+ssl/
