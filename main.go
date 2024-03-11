@@ -79,6 +79,7 @@ func cbHandler(w http.ResponseWriter, r *http.Request) {
 func main() {
 
 	http.HandleFunc("/acquisitions/", createHandler("acquisitions"))
+	http.HandleFunc("/capabilities/", createHandler("capabilities"))
 	http.HandleFunc("/consulting/", createHandler("consulting"))
 	http.HandleFunc("/treasury/", treasury.Handler)
 	http.HandleFunc("/oauth2callback/", cbHandler)
