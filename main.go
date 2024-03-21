@@ -50,6 +50,11 @@ func createHandler(path string) func(http.ResponseWriter, *http.Request) {
 }
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
+	if r.URL.Path != "/" {
+		http.NotFound(w, r)
+		return
+	}
+
 	data.PageTitle = "Leros Capital LLC"
 
 	err := tmpl.ExecuteTemplate(w, "home", data)
