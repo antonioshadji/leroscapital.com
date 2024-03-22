@@ -3,3 +3,5 @@ User-agent: AdsBot-Google
 User-agent: Slurp
 User-agent: BingBot
 User-agent: *
+
+Sitemap: https://leroscapital.com/sitemap.xml
