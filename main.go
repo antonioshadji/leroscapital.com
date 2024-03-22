@@ -5,6 +5,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"net/url"
 	"os"
 	"strings"
 	"time"
@@ -40,7 +41,7 @@ func init() {
 
 func createHandler(path string) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
-		data.PageTitle = "Leros Capital :: " + strings.Title(path)
+		data.PageTitle = fmt.Sprintf("Leros Capital :: %s%s", strings.ToUpper(string(path[0])), path[1:])
 
 		err := tmpl.ExecuteTemplate(w, path, data)
 		if err != nil {
@@ -50,14 +51,21 @@ func createHandler(path string) func(http.ResponseWriter, *http.Request) {
 }
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/" {
+	u, err := url.Parse(r.URL.String())
+	if err != nil {
+		log.Println(err)
+	}
+	if u.Path != "/" {
 		http.NotFound(w, r)
 		return
+	}
+	if u.RawQuery != "" {
+		http.Redirect(w, r, "/", http.StatusSeeOther)
 	}
 
 	data.PageTitle = "Leros Capital LLC"
 
-	err := tmpl.ExecuteTemplate(w, "home", data)
+	err = tmpl.ExecuteTemplate(w, "home", data)
 	if err != nil {
 		log.Printf("Failed to ExecuteTemplate: %v", err)
 	}
