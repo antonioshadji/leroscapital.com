@@ -59,10 +59,13 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 		http.NotFound(w, r)
 		return
 	}
+  // is this a best practice ?
 	if u.RawQuery != "" {
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 	}
 
+  // if sitemap does not fix canonical issue, try this header
+  // w.Header().Set("Link", "<https://leroscapital.com/>; rel='canonical'")
 	data.PageTitle = "Leros Capital LLC"
 
 	err = tmpl.ExecuteTemplate(w, "home", data)
