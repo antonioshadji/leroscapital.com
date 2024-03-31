@@ -15,8 +15,10 @@ import (
 	"github.com/antonioshadji/leroscapital.com/webhooks"
 )
 
-var tmpl = template.Must(template.ParseGlob("templates/*"))
-var apiKey string
+var (
+	tmpl   = template.Must(template.ParseGlob("templates/*"))
+	apiKey string
+)
 
 // PageDetails ...
 type PageDetails struct {
@@ -42,6 +44,8 @@ func init() {
 func createHandler(path string) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		data.PageTitle = fmt.Sprintf("Leros Capital :: %s%s", strings.ToUpper(string(path[0])), path[1:])
+		// set canonical link in HTTP header
+		w.Header().Set("Link", fmt.Sprintf("<https://leroscapital.com/%s/>; rel='canonical'", string(path)))
 
 		err := tmpl.ExecuteTemplate(w, path, data)
 		if err != nil {
@@ -59,14 +63,14 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 		http.NotFound(w, r)
 		return
 	}
-  // is this a best practice ?
+	// TODO: is this a best practice ?
 	if u.RawQuery != "" {
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 	}
 
-  // if sitemap does not fix canonical issue, try this header
-  // w.Header().Set("Link", "<https://leroscapital.com/>; rel='canonical'")
 	data.PageTitle = "Leros Capital LLC"
+	// set canonical link in HTTP header
+	w.Header().Set("Link", "<https://leroscapital.com/>; rel='canonical'")
 
 	err = tmpl.ExecuteTemplate(w, "home", data)
 	if err != nil {
@@ -93,7 +97,6 @@ func cbHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-
 	http.HandleFunc("/acquisitions/", createHandler("acquisitions"))
 	http.HandleFunc("/capabilities/", createHandler("capabilities"))
 	http.HandleFunc("/consulting/", createHandler("consulting"))
