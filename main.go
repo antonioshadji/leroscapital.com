@@ -10,7 +10,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/antonioshadji/leroscapital.com/secrets"
+	//	"github.com/antonioshadji/leroscapital.com/secrets"
 	"github.com/antonioshadji/leroscapital.com/treasury"
 	"github.com/antonioshadji/leroscapital.com/webhooks"
 )
@@ -36,10 +36,10 @@ var data = PageDetails{
 	Year:       time.Now().Year(),
 }
 
-func init() {
-	name := "projects/584752879666/secrets/MAPAPI/versions/2"
-	apiKey = secrets.AccessSecretVersion(name)
-}
+// func init() {
+// 	name := "projects/584752879666/secrets/MAPAPI/versions/2"
+// 	apiKey = secrets.AccessSecretVersion(name)
+// }
 
 func createHandler(path string) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
