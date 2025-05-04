@@ -34,3 +34,6 @@ index.yaml
 tmp/
 # keys
 ssl/
+
+# node
+node_modules/
